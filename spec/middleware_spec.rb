@@ -10,9 +10,9 @@ RSpec.describe RailsSameSiteCookie::Middleware do
       end
     end
 
-    it "adds SameSite=None to cookies for requests whose UA matches regex" do
+    it "doesn't add SameSite=None to cookies for requests whose UA matches regex" do
       response = request.post("/some/path", 'HTTP_USER_AGENT' => 'StrongrFastrApp')
-      expect(response['Set-Cookie']).to match(/;\s*samesite=none/i)
+      expect(response['Set-Cookie']).not_to match(/;\s*samesite=none/i)
     end
 
     it "doesn't add SameSite=None if request is missing regex" do
@@ -29,9 +29,9 @@ RSpec.describe RailsSameSiteCookie::Middleware do
       end
     end
 
-    it "adds SameSite=None to cookies for all requests" do
+    it "doesn't add SameSite=None to cookies for all requests" do
       response = request.post("/some/path", 'HTTP_USER_AGENT' => '')
-      expect(response['Set-Cookie']).to match(/;\s*samesite=none/i)
+      expect(response['Set-Cookie']).not_to match(/;\s*samesite=none/i)
     end
 
   end
